@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>com.alexie</groupId>
+	<artifactId>demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>demo</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<aspectj.version>1.9.4</aspectj.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+
+		<!--引入JUnit5 进行参数化测试-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
+
+        <!--Mysql 数据库操作依赖-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+        <!-- Getter/Setter 注解依赖 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+        <!-- Rest-Assured 接口测试框架依赖	-->
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-path</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/xml-path -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>xml-path</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<version>4.3.0</version>
+		</dependency>
+        <!--Html解析 依赖JSoup-->
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.11.3</version>
+		</dependency>
+
+        <!--断言依赖-->
+		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.23</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.11.3</version>
+		</dependency>
+
+
+        <!-- junit5 基础 maven依赖		-->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>1.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>1.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
+        <!-- JUnit5 参数化依赖 -->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>5.7.0</version>
+		</dependency>
+
+        <!-- JUnit5 与Springboot 整合-->
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.7.0</version>
+		</dependency>
+
+		<!--整合 allure 报告-->
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit5</artifactId>
+			<version>2.13.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-java-commons</artifactId>
+			<version>2.13.3</version>
+			<scope>compile</scope>
+		</dependency>
+
+	</dependencies>
+
+<!--	<configuration>-->
+<!--		<excludes>-->
+<!--			<exclude>-->
+<!--				<groupId>org.projectlombok</groupId>-->
+<!--				<artifactId>lombok</artifactId>-->
+<!--			</exclude>-->
+<!--		</excludes>-->
+<!--	</configuration>-->
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+					</argLine>
+					<systemProperties>
+						<property>
+							<name>junit.jupiter.extensions.autodetection.enabled</name>
+							<value>true</value>
+						</property>
+					</systemProperties>
+					<systemPropertyVariables>
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+						<allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
+						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
+					</systemPropertyVariables>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>1.2.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>io.qameta.allure</groupId>
+				<artifactId>allure-maven</artifactId>
+				<version>2.10.0</version>
+				<configuration>
+					<reportVersion>2.4.1</reportVersion>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>
