@@ -86,25 +86,30 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>4.3.0</version>
+			<version>4.2.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>json-path</artifactId>
-			<version>4.3.0</version>
+			<version>4.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.73</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/xml-path -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>xml-path</artifactId>
-			<version>4.3.0</version>
+			<version>4.2.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>json-schema-validator</artifactId>
-			<version>4.3.0</version>
+			<version>4.2.0</version>
 		</dependency>
         <!--Html解析 依赖JSoup-->
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
@@ -126,7 +131,7 @@
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
-			<version>1.23</version>
+			<version>1.26</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml -->
 		<dependency>
@@ -204,6 +209,24 @@
 			<scope>compile</scope>
 		</dependency>
 
+
+<!--		Excel解析-->
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+
+
 	</dependencies>
 
 <!--	<configuration>-->
@@ -214,6 +237,34 @@
 <!--			</exclude>-->
 <!--		</excludes>-->
 <!--	</configuration>-->
+
+
+	<profiles>
+		<!--测试环境-->
+		<profile>
+			<id>test</id>
+			<properties>
+				<spring.profiles.active>test</spring.profiles.active>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<!--预发布环境-->
+		<profile>
+			<id>stage</id>
+			<properties>
+				<spring.profiles.active>stage</spring.profiles.active>
+			</properties>
+		</profile>
+		<!--生产环境-->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>prod</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 
 
 	<build>
@@ -236,12 +287,13 @@
 							<name>junit.jupiter.extensions.autodetection.enabled</name>
 							<value>true</value>
 						</property>
+						<propertiesFilePath>src/test/resources/config/allure.properties</propertiesFilePath>
 					</systemProperties>
-					<systemPropertyVariables>
-						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-						<allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
-						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
-					</systemPropertyVariables>
+<!--					<systemPropertyVariables>-->
+<!--						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>-->
+<!--						<allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>-->
+<!--						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>-->
+<!--					</systemPropertyVariables>-->
 				</configuration>
 				<dependencies>
 					<dependency>

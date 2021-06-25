@@ -1,39 +1,24 @@
-package com.alexie.demo.testMaterialSearch;
+package com.alexie.demo.utils;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
 /**
- * ceshi
+ * 读取文件/写出文件
  *
- * @author Alexie on 2021/6/4
- * @ClassName TestStar
+ * @author Alexie on 2021/6/8
+ * @ClassName FileUtils
  * @Description TODO
  * @Version 1.0
  */
 
-public class TestStar{
+public class FileUtils {
 
-    private Integer id = 0;
 
-    @Test
-    public void getHTML() throws Exception {
-
-        StringBuilder sb = new StringBuilder();
-        Document doc = Jsoup.connect("http://www.manmankan.com/dy2013/mingxing/neidi/").get();
-        Elements lisDIV = doc.getElementsByAttributeValue("class","show");
-        for(Element text: lisDIV){
-            //System.out.println(text.attr("title"));
-            sb.append((++id) + "： " +text.attr("title")+"\n");
-        }
-        writeOcrStrtoFile(sb.toString(),"src/test/output","starlist.txt");
-    }
-
+    //Logger
+    protected static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      * 保存文件到本地
@@ -42,7 +27,7 @@ public class TestStar{
      * @param outFileName   保存的文件名
      * @throws Exception
      */
-    public static void writeOcrStrtoFile(String result, String outPath, String outFileName) throws Exception {
+    public static void writeStrtoFile(String result, String outPath, String outFileName) throws Exception {
         File dir = new File(outPath);
         if(!dir.exists()) {
             dir.mkdirs();
@@ -50,7 +35,8 @@ public class TestStar{
         File txt = new File(outPath + "/" + outFileName);
 //         先删除；否则会直接追加在之前的内容后面，成几何倍数增长
         if (txt.isFile() && txt.exists()) {
-            txt.delete();
+            logger.info("文件已存在！");
+//            txt.delete();
         }
 
         // 再创建
@@ -60,11 +46,14 @@ public class TestStar{
         byte bytes[] = new byte[512];
         bytes = result.getBytes();
         int b = bytes.length; // 是字节的长度，不是字符串的长度
-        FileOutputStream fos = new FileOutputStream(txt);
+        FileOutputStream fos = new FileOutputStream(txt,true);
         fos.write(bytes);
         fos.flush();
         fos.close();
+        logger.info("文件写入成功！");
     }
+
+
 
     /**
      * 读取本地文件（按行读取），因为存的时候没换行，所以按行读取
@@ -99,4 +88,3 @@ public class TestStar{
 
 
 }
-

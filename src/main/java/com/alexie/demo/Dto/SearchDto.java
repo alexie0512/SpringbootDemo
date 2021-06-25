@@ -16,5 +16,6 @@ import lombok.Data;
 public class SearchDto {
     private String searchStr;
     private String expectedStr;
+
 }
 

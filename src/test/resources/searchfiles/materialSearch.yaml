@@ -1,0 +1,8 @@
+#- searchStr: 天猫
+#  expectedStr: 天猫
+#- searchStr: 测试
+#  expectedStr: 形码-full-marketing测试
+#- searchStr: 奥妙
+#  expectedStr: ceshi
+- searchStr: 奥妙
+  expectedStr: 你好

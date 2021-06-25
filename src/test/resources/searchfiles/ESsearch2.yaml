@@ -1,0 +1,9 @@
+esSearchDtoList:
+  - text: 阿朵
+    analyzer: ik_smart
+  - text: 阿朵你好
+    analyzer: ik_smart
+  - text: 净味冰箱
+    analyzer: ik_smart
+  - text: 果润冰箱
+    analyzer: ik_smart

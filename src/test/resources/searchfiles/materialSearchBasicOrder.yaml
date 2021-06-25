@@ -1,0 +1,18 @@
+
+#验证匹配搜索结果的素材返回
+# searchSr 为搜索关键字
+- searchStr: 多芬
+  expected_ID:
+  expected_NAME:
+  expected_DESC:
+  expected_TAG:
+- searchStr: 多封
+  expected_ID:
+  expected_NAME:
+- searchStr: 多芬洗面奶
+  expected_ID:
+- searchStr: Dove 洗面奶
+  expected_ID:
+- searchStr: 多芬去油洗面奶
+  expected_ID:
+

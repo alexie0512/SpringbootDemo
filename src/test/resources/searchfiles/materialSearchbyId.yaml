@@ -1,0 +1,16 @@
+
+#通过素材ID搜索素材库
+- searchStr: 113
+  expected_ID: 113
+  expected_NAME: 「勿动」土豆与阿朵
+  expected_DESC:
+  expected_TAG:
+  total_Count: 1
+- searchStr: 96
+  expected_ID: 96
+  expected_NAME: 「勿动」OMO奥妙洗衣液促销装薰-土豆
+  total_Count: 1
+- searchStr: 1928292892
+  expected_ID:
+  expected_NAME:
+  total_Count: 0

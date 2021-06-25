@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.given;
  * @Version 1.0
  */
 
-@Service
+
 public class RestAPI {
 
     //Logger
@@ -33,25 +33,24 @@ public class RestAPI {
     public static  final String baseURL= "https://vms-service.tezign.com";
     public static  final String ESbaseURL= "https://es-cn-mp91mb9ff000j5bde.kibana.elasticsearch.aliyuncs.com:5601";
 
-//    protected EnumMap<Request,Object> reqBody = new EnumMap<Request, Object>(Request.class);
-//    protected EnumMap<Request, Map<String,Object>> reqMap = new EnumMap<Request, Map<String, Object>>(Request.class);
-//
-//
-//
-//
-//    public enum Request{
-//        COOKIE,
-//        HEADER,
-//        QUERY,
-//        PATH,
-//        FORM,
-//        BODY
-//    }
+    protected EnumMap<Request,Object> reqBody = new EnumMap<Request, Object>(Request.class);
+    protected EnumMap<Request, Map<String,Object>> reqMap = new EnumMap<Request, Map<String, Object>>(Request.class);
 
+
+
+
+    public enum Request{
+        COOKIE,
+        HEADER,
+        QUERY,
+        PATH,
+        FORM,
+        BODY
+    }
 
 
     //Post API
-    public static Response RestPostwithFormParams(Header header, String contentType, String endPoint, Map<String,Object> reqFormParams){
+    public static Response RestPostWithFormParams(Header header, String contentType, String endPoint, Map<String,Object> reqFormParams){
         Response res = given()
                 .header(header)
                 .contentType(contentType)
@@ -74,7 +73,7 @@ public class RestAPI {
                 .log().all()
                 .post(baseURL+endPoint)
                 .then()
-                .log().ifError()
+                .log().all()
                 .extract()
                 .response();
 
@@ -86,7 +85,25 @@ public class RestAPI {
         Response res = given()
                 .headers(headers)
                 .contentType(contentType)
-                .queryParams((Map<String, ?>) queryParams.getOrDefault(Request.QUERY,Collections.emptyMap()))
+                .queryParams(queryParams) //(Map<String, ?>) queryParams.getOrDefault(Request.QUERY,Collections.emptyMap())
+                .body(body)
+                .log().all()
+                .post(ESbaseURL+endPoint)
+                .then()
+                .log().all()
+                .extract()
+                .response();
+
+        return res;
+    }
+
+
+
+
+    public static Response RestPostwithBody_ES1(Map<String,Object> headers, String contentType, String endPoint, Object body){
+        Response res = given()
+                .headers(headers)
+                .contentType(contentType)
                 .body(body)
                 .log().all()
                 .post(ESbaseURL+endPoint)
