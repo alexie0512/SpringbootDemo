@@ -69,24 +69,24 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
     private static String token;
 
 
-    @BeforeAll
-    static void getToken(){
-
-        /**
-         * 登录租户T3,获取Token
-         */
-        logger.info("BeforeALl");
-        logger.info("登录租户，获取token");
-        Map<String, Object> reqParams = new HashMap<>();
-        reqParams.put("username", CustomizedHeader.USER_NAME_T13);
-        reqParams.put("password", CustomizedHeader.PWD_T13);
-        reqParams.put("expires", CustomizedHeader.EXPIRES);
-
-        Header header = new Header("x-tenant-id", CustomizedHeader.TENANT_T13);
-        Response res = RestAPI
-                .RestPostWithFormParams(header, ContentType.URLENC.withCharset("UTF-8"), "/user/login", reqParams);
-        token = res.path("result.token");
-    }
+//    @BeforeAll
+//    static void getToken(){
+//
+//        /**
+//         * 登录租户T3,获取Token
+//         */
+//        logger.info("BeforeALl");
+//        logger.info("登录租户，获取token");
+//        Map<String, Object> reqParams = new HashMap<>();
+//        reqParams.put("username", CustomizedHeader.USER_NAME_T13);
+//        reqParams.put("password", CustomizedHeader.PWD_T13);
+//        reqParams.put("expires", CustomizedHeader.EXPIRES);
+//
+//        Header header = new Header("x-tenant-id", CustomizedHeader.TENANT_T13);
+//        Response res = RestAPI
+//                .RestPostWithFormParams(header, ContentType.URLENC.withCharset("UTF-8"), "/user/login", reqParams);
+//        token = res.path("result.token");
+//    }
 
     /************************************
      ********  素材库搜索  ****************
@@ -117,6 +117,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
     /**
      * yaml 数据驱动 搜索素材库
      */
+    @Disabled
     @ParameterizedTest
     @MethodSource
     @DisplayName("参数化测试_批量搜索匹配素材_读取YAML文件")
@@ -146,10 +147,9 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
     }
 
-
+    @Disabled
     @DisplayName("获取租户的全量素材的素材名称并存入YAML文件")
     @Test
-    @Disabled
     public void searchMaterial_All() throws Exception {
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
@@ -189,6 +189,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
 
 
+    @Disabled
     @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
     @Description("参数化测试_读取搜索数据CSV文件实现模拟用户关键字搜索")
     @Severity(SeverityLevel.CRITICAL)

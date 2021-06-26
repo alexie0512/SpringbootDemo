@@ -87,6 +87,7 @@ public class ESSearchTest implements CustomizedHeader {
      */
 
 
+    @Disabled
     @ParameterizedTest
     @MethodSource
     @DisplayName("参数化测试_调用KIBANA批量分词_analyze")

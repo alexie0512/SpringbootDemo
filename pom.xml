@@ -224,8 +224,12 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.17</version>
 		</dependency>
-
-
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
 
 	</dependencies>
 
@@ -287,13 +291,13 @@
 							<name>junit.jupiter.extensions.autodetection.enabled</name>
 							<value>true</value>
 						</property>
-						<propertiesFilePath>src/test/resources/config/allure.properties</propertiesFilePath>
+<!--						<propertiesFilePath>src/test/resources/config/allure.properties</propertiesFilePath>-->
 					</systemProperties>
-<!--					<systemPropertyVariables>-->
-<!--						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>-->
-<!--						<allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>-->
-<!--						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>-->
-<!--					</systemPropertyVariables>-->
+					<systemPropertyVariables>
+						<allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+						<allure.link.issue.pattern>https://example.org/browse/{}</allure.link.issue.pattern>
+						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
+					</systemPropertyVariables>
 				</configuration>
 				<dependencies>
 					<dependency>

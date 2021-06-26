@@ -4,7 +4,7 @@ config:
   environmentURL: https://vms-t13.tezign.com
 
 server:
-  port: 8080
+  port: 8081
   tomcat:
     uri-encoding: UTF-8
 

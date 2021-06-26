@@ -58,7 +58,7 @@ public class RestAPI {
                 .log().all()
                 .post(baseURL+endPoint)
                 .then()
-                .log().all()
+                .log().ifError()
                 .extract()
                 .response();
         return res;
@@ -73,7 +73,7 @@ public class RestAPI {
                 .log().all()
                 .post(baseURL+endPoint)
                 .then()
-                .log().all()
+                .log().ifError()
                 .extract()
                 .response();
 
@@ -90,7 +90,7 @@ public class RestAPI {
                 .log().all()
                 .post(ESbaseURL+endPoint)
                 .then()
-                .log().all()
+                .log().ifError()
                 .extract()
                 .response();
 
