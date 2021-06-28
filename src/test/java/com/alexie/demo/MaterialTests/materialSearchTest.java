@@ -17,7 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -58,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(classes = DemoApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 //@RunWith(JUnitPlatform.class)
+@Epic("素材库搜索接口测试示例")
 @DisplayName("素材库搜索相关用例")
 public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
     private static final Logger logger = LoggerFactory.getLogger(materialSearchTest.class);
@@ -127,10 +128,12 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
 
 
-    @ParameterizedTest
+    @ParameterizedTest(name="静态排序测试用例[{index}]")
     @MethodSource
+    @Story("静态排序策略验证测试")
     @DisplayName("验证素材库 搜索 「关键字」后，返回结果素材名中包含分词结果")
     @Description("验证素材库 搜索 基础排序策略，交并集先后排序")
+    @Severity(SeverityLevel.CRITICAL)
     public void materialSearchBasicOrder(MaterialSearchDto materialSearchDto) throws Exception {
 
         /**
@@ -267,10 +270,12 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
 
 
-    @ParameterizedTest
+    @ParameterizedTest(name="素材ID搜索用例[{index}]")
     @MethodSource
+    @Story("常规搜索测试")
     @Description("验证 素材ID搜索功能")
     @DisplayName("验证 素材ID搜索功能")
+    @Severity(SeverityLevel.CRITICAL)
     public void materialSearchbyId(MaterialSearchDto materialSearchDto){
         //String payLoad = "{\"filterMap\":{},\"searchText\":{\"奥妙\":[]},\"startPoint\":0,\"endPoint\":48}";
 
@@ -303,6 +308,9 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
     @DisplayName("批量搜索T13素材库，判断返回列表是包含预期素材ID")
     @Description("验证素材库主色筛选相似色阈值均大于20且降序排列")
+    @Story("主色邻近色筛选搜索验证测试")
+    @Severity(SeverityLevel.CRITICAL)
+    @Step("验证主色 {0} 搜索的结果相似色阈值大于 {1} ")
     @ParameterizedTest(name="用例[{index}],主色[{0}],相似色最低阈值[{1}]")
     @SimpleExcelFileSource(resource = "src/test/resources/searchfiles/主色筛选标准色_old.xlsx",sheetNameToRead = "Sheet1",headerLineNum = 0)
     public void materialSearchbyColor(String Standard_Color, Float Adjacent_min) throws JSONException {
@@ -347,9 +355,10 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
 
 
-
+    @Story("搜索关键词同义词改写搜索验证测试")
     @DisplayName("验证素材库同义词搜索")
     @Description("验证素材库同义词搜索")
+    @Severity(SeverityLevel.NORMAL)
     @Test
     public void materialSearchwithSynonoms(){
         String payLoad = "{\"filterMap\":{},\"searchText\":{\"土豆\":[]},\"startPoint\":0,\"endPoint\":48}";

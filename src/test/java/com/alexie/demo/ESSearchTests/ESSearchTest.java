@@ -86,9 +86,8 @@ public class ESSearchTest implements CustomizedHeader {
      ***********************************************
      */
 
-
     @Disabled
-    @ParameterizedTest
+    @ParameterizedTest(name="T13素材分词用例[{index}]")
     @MethodSource
     @DisplayName("参数化测试_调用KIBANA批量分词_analyze")
     void getIKESResults(ESSearchDto esSearchDto) throws Exception {
