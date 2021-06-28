@@ -55,13 +55,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @Version 1.0
  */
 
-@Slf4j
-//@ContextConfiguration()
-@ExtendWith(SpringExtension.class)
-@Component
-@SpringBootTest(classes = DemoApplication.class)
-//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@DisplayName("素材库搜索相关用例")
+//@Slf4j
+////@ContextConfiguration()
+//@ExtendWith(SpringExtension.class)
+//@Component
+//@SpringBootTest(classes = DemoApplication.class)
+////@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@DisplayName("素材库搜索相关用例")
 public class MaterialSearchDEMOTest implements CustomizedHeader {
 
 
@@ -92,9 +92,9 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
      ********  素材库搜索  ****************
      * **********************************
      */
-    @Disabled
-    @Test
-    @DisplayName("搜索素材库，匹配关键词：奥妙")
+//    @Disabled
+//    @Test
+//    @DisplayName("搜索素材库，匹配关键词：奥妙")
     public void searchMaterial1() {
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
@@ -117,10 +117,10 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
     /**
      * yaml 数据驱动 搜索素材库
      */
-    @Disabled
-    @ParameterizedTest
-    @MethodSource
-    @DisplayName("参数化测试_批量搜索匹配素材_读取YAML文件")
+//    @Disabled
+//    @ParameterizedTest
+//    @MethodSource
+//    @DisplayName("参数化测试_批量搜索匹配素材_读取YAML文件")
     public void searchMaterial(SearchDto search) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
@@ -147,9 +147,9 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
     }
 
-    @Disabled
-    @DisplayName("获取租户的全量素材的素材名称并存入YAML文件")
-    @Test
+//    @Disabled
+//    @DisplayName("获取租户的全量素材的素材名称并存入YAML文件")
+//    @Test
     public void searchMaterial_All() throws Exception {
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
@@ -189,12 +189,12 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
 
 
-    @Disabled
-    @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
-    @Description("参数化测试_读取搜索数据CSV文件实现模拟用户关键字搜索")
-    @Severity(SeverityLevel.CRITICAL)
-    @ParameterizedTest(name="用例[{index}],用户[{0}],搜索关键字[{1}],预期命中id[{2}]")
-    @CsvFileSource(files = "src/test/resources/searchfiles/租户_联合利华搜索数据 _4.9_4.15.csv", numLinesToSkip = 1)
+//    @Disabled
+//    @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
+//    @Description("参数化测试_读取搜索数据CSV文件实现模拟用户关键字搜索")
+//    @Severity(SeverityLevel.CRITICAL)
+//    @ParameterizedTest(name="用例[{index}],用户[{0}],搜索关键字[{1}],预期命中id[{2}]")
+//    @CsvFileSource(files = "src/test/resources/searchfiles/租户_联合利华搜索数据 _4.9_4.15.csv", numLinesToSkip = 1)
     public void searchMaterialviaCSVfile(String keyword,String expected_assetId) {
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
@@ -240,12 +240,12 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
 
 
-
-    @Disabled
-    @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
-    @Description("参数化测试_读取EXCEL文件实现模拟用户关键字搜索")
-    @ParameterizedTest(name="用例[{index}],用户[{0}],搜索[{1}]")
-    @SimpleExcelFileSource(resource = "src/test/resources/searchfiles/租户搜索埋点数据_4.9_4.15_ceshi.xlsx",sheetNameToRead = "Sheet 1",headerLineNum = 0)
+//
+//    @Disabled
+//    @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
+//    @Description("参数化测试_读取EXCEL文件实现模拟用户关键字搜索")
+//    @ParameterizedTest(name="用例[{index}],用户[{0}],搜索[{1}]")
+//    @SimpleExcelFileSource(resource = "src/test/resources/searchfiles/租户搜索埋点数据_4.9_4.15_ceshi.xlsx",sheetNameToRead = "Sheet 1",headerLineNum = 0)
     public void searchMaterialviaExcelfile(String user_name, String keyword){
         Map<String, Object> headers = new HashMap<>();
         headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);

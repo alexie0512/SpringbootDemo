@@ -301,7 +301,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
 
 
-    @DisplayName("批量搜索T3素材库，判断返回列表是包含预期素材ID")
+    @DisplayName("批量搜索T13素材库，判断返回列表是包含预期素材ID")
     @Description("验证素材库主色筛选相似色阈值均大于20且降序排列")
     @ParameterizedTest(name="用例[{index}],主色[{0}],相似色最低阈值[{1}]")
     @SimpleExcelFileSource(resource = "src/test/resources/searchfiles/主色筛选标准色_old.xlsx",sheetNameToRead = "Sheet1",headerLineNum = 0)
@@ -348,6 +348,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
 
 
+    @DisplayName("验证素材库同义词搜索")
     @Description("验证素材库同义词搜索")
     @Test
     public void materialSearchwithSynonoms(){
