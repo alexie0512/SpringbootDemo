@@ -24,9 +24,6 @@ import java.util.List;
 
 public class YamlTest {
 
-
-    @Disabled
-    @Test
     public void testread(){
         Yaml yaml = new Yaml(new Constructor(EsSearchUseCaseDto.class));
         InputStream inputStream = this.getClass()
@@ -42,9 +39,6 @@ public class YamlTest {
 
     }
 
-
-    @Disabled
-    @Test
     public void testread2() throws FileNotFoundException {
         InputStream input = new FileInputStream(new File("src/test/output/t13素材搜索关键字.yml"));
         Yaml yaml = new Yaml();
@@ -53,8 +47,6 @@ public class YamlTest {
     }
 
 
-    @Disabled
-    @Test
     public void testwrite(){
         EsSearchUseCaseDto esSearchUseCaseDto = new EsSearchUseCaseDto();
         List<ESSearchDto> esSearchDtoList;

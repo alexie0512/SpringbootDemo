@@ -43,8 +43,6 @@ public class TestStar{
 
     private Integer id = 0;
 
-    @Disabled
-    @Test
     public void getHTML() throws Exception {
 
         StringBuilder sb = new StringBuilder();
