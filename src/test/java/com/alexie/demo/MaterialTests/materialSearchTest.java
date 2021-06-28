@@ -41,7 +41,6 @@ import java.util.stream.Collectors;
 
 import static com.alexie.demo.utils.Tools.usingStream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -352,7 +351,12 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
     @Description("验证素材库同义词搜索")
     @Test
     public void materialSearchwithSynonoms(){
-        logger.info("success");
+        String payLoad = "{\"filterMap\":{},\"searchText\":{\"土豆\":[]},\"startPoint\":0,\"endPoint\":48}";
+        Response res = RestAPI
+                .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
+
+        assertTrue(res.path("result.totalCount").toString().equals("7"));
+
     }
 
 

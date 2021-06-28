@@ -68,7 +68,7 @@ public abstract class ENV_PREP {
 
         File ENV_FILE = new File("src/test/resources/config/environment.properties");
 
-        FileUtils.copyFile(new File("src/test/resources/config/environment.properties"),new File("target/allure-results"));
+        FileUtils.copyFile(new File("src/test/resources/config/environment.properties"),new File("target/allure-results/environment.properties"));
         logger.info("环境文件拷贝成功");
 
     }
