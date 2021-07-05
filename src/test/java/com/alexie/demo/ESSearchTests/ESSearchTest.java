@@ -71,7 +71,7 @@ public class ESSearchTest implements CustomizedHeader {
 
         String payLoad = "{\"username\":\"elastic\",\"password\":\"CwWkTuF1AY14HA3OTo66\"}";
         //String payLoad= FileReader.readToString(new File(System.getProperty("security_v1_login")),"UTF-8");
-        Response res = RestAPI.RestPostwithBody_ES1(headers,ContentType.JSON.withCharset("UTF-8"),"/api/security/v1/login",payLoad);
+        Response res = new RestAPI().RestPostwithBody_ES1(headers,ContentType.JSON.withCharset("UTF-8"),"/api/security/v1/login",payLoad);
 
         cookie = res.getCookie("sid");
         logger.info("cookie值为：" + cookie);
@@ -99,7 +99,7 @@ public class ESSearchTest implements CustomizedHeader {
         headers.put("kbn-version", CustomizedHeader.KIBANA_VERSION);
         headers.put("Cookie","sid="+ cookie);
 
-        Response res = RestAPI.RestPostwithBody_ES(headers,ContentType.JSON.withCharset("UTF-8"),queryParams,"/api/console/proxy",esSearchDto);
+        Response res =  new RestAPI().RestPostwithBody_ES(headers,ContentType.JSON.withCharset("UTF-8"),queryParams,"/api/console/proxy",esSearchDto);
 
         //list.add("关键字---- "+esSearchDto.getText()+"----的分词结果为："+res.path("tokens.token") +"\n");
         //System.out.println(list);

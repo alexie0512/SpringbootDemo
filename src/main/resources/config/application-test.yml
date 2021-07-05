@@ -1,7 +1,10 @@
 config:
   project: 中台搜索Springboot demo~~~~
   environment: test
-  environmentURL: https://vms-t13.tezign.com
+  environmentURL1: https://vms-t2.tezign.com
+  environmentURL2: https://vms-t13.tezign.com
+  serviceURL: https://vms-service.tezign.com
+  Kibana_BaseURL: https://es-cn-mp91mb9ff000j5bde.kibana.elasticsearch.aliyuncs.com:5601
 
 server:
   port: 8081

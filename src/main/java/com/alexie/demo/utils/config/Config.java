@@ -48,8 +48,17 @@ public class Config implements Serializable {
     @Value("${config.environment}")
     private String environment;
 
-    @Value("${config.environmentURL}")
-    private String environmentalURL;
+    @Value("${config.environmentURL1}")
+    private String environmentURL1;
+
+    @Value("${config.environmentURL2}")
+    private String environmentURL2;
+
+    @Value("${config.serviceURL}")
+    private String serviceURL;
+
+    @Value("${config.Kibana_BaseURL}")
+    private String Kibana_BaseURL;
 
     @Override
     public String toString(){
@@ -61,7 +70,8 @@ public class Config implements Serializable {
         configElements.add(border);
         configElements.add(String.format(normalLine,"Project",getProject()));
         configElements.add(String.format(normalLine,"Environment",getEnvironment()));
-        configElements.add(String.format(normalLine,"EnvironmentURL",getEnvironmentalURL()));
+        configElements.add(String.format(normalLine,"serviceURL",getServiceURL()));
+        configElements.add(String.format(normalLine,"Kibana_BaseURL",getKibana_BaseURL()));
         configElements.add(border);
         configElements.add(border);
 

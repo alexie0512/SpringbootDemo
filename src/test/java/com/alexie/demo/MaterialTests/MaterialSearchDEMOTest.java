@@ -102,7 +102,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
         headers.put("x-user-id",CustomizedHeader.USER_ID);
 
         String payLoad = "{\"filterMap\":{},\"searchText\":{\"奥妙\":[]},\"startPoint\":0,\"endPoint\":48}";
-        Response res = RestAPI
+        Response res = new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         assertAll("断言测试", () -> assertEquals("奥妙淡雅樱花2KG-800-800主图(1)", res.path("result.list[0].CORE_NAME")),
@@ -129,7 +129,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
         String payLoad = "{\"filterMap\":{},\"searchText\":{ \"" + search.getSearchStr()
                 + "\":[]},\"startPoint\":0,\"endPoint\":48}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         logger.info("关键字「" + search.getSearchStr() + "」的搜索结果素材名称汇总为： " + res.path("result.list.CORE_NAME"));
@@ -158,7 +158,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
 
 
         String payLoad = "{\"filterMap\":{},\"searchText\":{},\"startPoint\":0,\"endPoint\":1000}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         List<String> materialNameList = res.path("result.list.CORE_NAME");
@@ -204,7 +204,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
         String payLoad = "{\"filterMap\":{},\"searchText\":{\"" + keyword + "\":[]},\"startPoint\":0,\"endPoint\":2000}";
 
         //String payLoad = "{\"filterMap\":{},\"searchText\":{},\"startPoint\":0,\"endPoint\":1000}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         //List<String> materialNameList = res.path("result.list.CORE_NAME");
@@ -255,7 +255,7 @@ public class MaterialSearchDEMOTest implements CustomizedHeader {
         String payLoad = "{\"filterMap\":{},\"searchText\":{\"" + keyword + "\":[]},\"startPoint\":0,\"endPoint\":2000}";
 
         //String payLoad = "{\"filterMap\":{},\"searchText\":{},\"startPoint\":0,\"endPoint\":1000}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         //List<String> materialNameList = res.path("result.list.CORE_NAME");

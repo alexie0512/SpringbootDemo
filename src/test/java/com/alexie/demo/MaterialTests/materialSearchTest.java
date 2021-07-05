@@ -3,17 +3,11 @@ package com.alexie.demo.MaterialTests;
 import com.alexie.demo.DemoApplication;
 import com.alexie.demo.Dto.ESSearchDto;
 import com.alexie.demo.Dto.MaterialSearchDto;
-import com.alexie.demo.Dto.SearchDto;
 import com.alexie.demo.ENV_PREP;
-import com.alexie.demo.ESSearchTests.ESSearchTest;
 import com.alexie.demo.Services.RestAPI;
-import com.alexie.demo.utils.FileUtils;
 import com.alexie.demo.utils.Interfaces.SimpleExcelFileSource;
 import com.alexie.demo.utils.config.CustomizedHeader;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -22,14 +16,11 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ddf.DefaultEscherRecordFactory;
 import org.json.JSONException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +30,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.alexie.demo.utils.Tools.usingStream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -85,8 +75,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         reqParams.put("expires", CustomizedHeader.EXPIRES);
 
         Header T_header = new Header("x-tenant-id", CustomizedHeader.TENANT_T13);
-        Response res = RestAPI
-                .RestPostWithFormParams(T_header, ContentType.URLENC.withCharset("UTF-8"), "/user/login", reqParams);
+        Response res= new RestAPI().RestPostWithFormParams(T_header, ContentType.URLENC.withCharset("UTF-8"), "/user/login", reqParams);
         token = res.path("result.token");
         logger.info("租户 ---------- token值为：" + token);
 
@@ -98,8 +87,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         K_header.put("kbn-version", CustomizedHeader.KIBANA_VERSION);
 
         String payLoad = "{\"username\":\"elastic\",\"password\":\"CwWkTuF1AY14HA3OTo66\"}";
-        //String payLoad= FileReader.readToString(new File(System.getProperty("security_v1_login")),"UTF-8");
-        Response response = RestAPI
+        Response response = new RestAPI()
                 .RestPostwithBody_ES1(K_header,ContentType.JSON.withCharset("UTF-8"),"/api/security/v1/login",payLoad);
 
         cookie = response.getCookie("sid");
@@ -148,7 +136,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         queryParams.put("path","_analyze");
         queryParams.put("method","POST");
 
-        Response K_res = RestAPI.RestPostwithBody_ES(K_headers,ContentType.JSON.withCharset("UTF-8"),queryParams,"/api/console/proxy",esSearchDto);
+        Response K_res = new RestAPI().RestPostwithBody_ES(K_headers,ContentType.JSON.withCharset("UTF-8"),queryParams,"/api/console/proxy",esSearchDto);
 
 
         List<String> K_List= K_res.path("tokens.token"); //提取IK分词器分词结果，并输出到文件：搜索词ik_smart分词策略结果.yml
@@ -160,7 +148,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
          * 请求素材库搜索接口 /material/search/list
          */
         String payLoad = "{\"filterMap\":{},\"searchText\":{ \""+materialSearchDto.getSearchStr()+"\":[]},\"startPoint\":0,\"endPoint\":48}";
-        Response T_res = RestAPI
+        Response T_res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
 
@@ -223,12 +211,16 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         if(!newList.isEmpty()){
             for(int i=0;i<newList.size();i++){
                 String value = newList.get(i);
-                String Desc= (T_result.stream().filter(map->map.get(key).equals(value))
-                        .collect(Collectors.toList())
-                        .get(0))
-                        .get("CORE_DESCRIPTION")
-                        .toString();
-                DescList.add(Desc);
+                try{
+                    String Desc= (T_result.stream().filter(map->map.get(key).equals(value))
+                            .collect(Collectors.toList())
+                            .get(0))
+                            .get("CORE_DESCRIPTION")
+                            .toString();
+                    DescList.add(Desc);
+                }catch (Exception e){
+                    logger.info("该素材");
+                }
             }
 
             count2= DescList.stream().filter(desc ->{
@@ -280,7 +272,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         //String payLoad = "{\"filterMap\":{},\"searchText\":{\"奥妙\":[]},\"startPoint\":0,\"endPoint\":48}";
 
         String payLoad = "{\"filterMap\":{\"id\":[\""+materialSearchDto.getSearchStr()+"\"]},\"searchText\":{},\"startPoint\":0,\"endPoint\":48}";
-        Response res = RestAPI
+        Response res = new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         assertAll("断言测试",
@@ -315,7 +307,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
     @SimpleExcelFileSource(resource = "src/test/resources/searchfiles/主色筛选标准色_old.xlsx",sheetNameToRead = "Sheet1",headerLineNum = 0)
     public void materialSearchbyColor(String Standard_Color, Float Adjacent_min) throws JSONException {
         String payLoad = "{\"filterMap\":{\"materialOrigin.adjacentColor\":[\""+Standard_Color+"\"]},\"searchText\":{},\"selfRelevant\":0,\"startPoint\":0,\"endPoint\":48}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         //Step 1: 提取响应体List
@@ -362,7 +354,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
     @Test
     public void materialSearchwithSynonoms(){
         String payLoad = "{\"filterMap\":{},\"searchText\":{\"土豆\":[]},\"startPoint\":0,\"endPoint\":48}";
-        Response res = RestAPI
+        Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
         assertTrue(res.path("result.totalCount").toString().equals("7"));
