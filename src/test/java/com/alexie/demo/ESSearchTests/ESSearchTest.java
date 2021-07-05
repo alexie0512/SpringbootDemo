@@ -1,7 +1,7 @@
 package com.alexie.demo.ESSearchTests;
 
-import com.alexie.demo.Dto.ESSearchDto;
-import com.alexie.demo.Services.RestAPI;
+import com.alexie.demo.dto.ESSearchDto;
+import com.alexie.demo.service.RestAPI;
 import com.alexie.demo.utils.config.CustomizedHeader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Component;
 import com.alexie.demo.utils.FileUtils;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.io.IOException;
 import java.util.ArrayList;

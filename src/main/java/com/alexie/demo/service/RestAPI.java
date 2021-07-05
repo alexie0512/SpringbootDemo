@@ -1,4 +1,4 @@
-package com.alexie.demo.Services;
+package com.alexie.demo.service;
 
 import com.alexie.demo.utils.config.Config;
 import io.restassured.http.Header;
@@ -7,11 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.EnumMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;

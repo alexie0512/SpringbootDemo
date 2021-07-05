@@ -1,10 +1,12 @@
 package com.alexie.demo.MaterialTests;
 
 import com.alexie.demo.DemoApplication;
-import com.alexie.demo.Dto.ESSearchDto;
-import com.alexie.demo.Dto.MaterialSearchDto;
+import com.alexie.demo.dto.ESSearchDto;
+import com.alexie.demo.dto.MaterialSearchDto;
 import com.alexie.demo.ENV_PREP;
-import com.alexie.demo.Services.RestAPI;
+import com.alexie.demo.entity.SearchKeyword;
+import com.alexie.demo.service.KeywordService;
+import com.alexie.demo.service.RestAPI;
 import com.alexie.demo.utils.Interfaces.SimpleExcelFileSource;
 import com.alexie.demo.utils.config.CustomizedHeader;
 
@@ -21,14 +23,17 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,74 +57,15 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("素材库搜索相关用例")
 public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
     private static final Logger logger = LoggerFactory.getLogger(materialSearchTest.class);
-    private static String token;
-    private static String cookie;
-    private static Map<String, Object> headers = new HashMap<>();
-    private static Map<String,Object>  K_headers = new HashMap<>();
 
-
-    /**********************
-     * 登录租户T3,获取Token *
-     **********************/
-    @BeforeAll
-    static void getTENANTToken_KibanaCookie(){
-
-        /********************
-         * 登录租户，获取token *
-         *********************/
-        logger.info("BeforeALl");
-        logger.info("登录租户，获取token");
-        Map<String, Object> reqParams = new HashMap<>();
-        reqParams.put("username", CustomizedHeader.USER_NAME_T13);
-        reqParams.put("password", CustomizedHeader.PWD_T13);
-        reqParams.put("expires", CustomizedHeader.EXPIRES);
-
-        Header T_header = new Header("x-tenant-id", CustomizedHeader.TENANT_T13);
-        Response res= new RestAPI().RestPostWithFormParams(T_header, ContentType.URLENC.withCharset("UTF-8"), "/user/login", reqParams);
-        token = res.path("result.token");
-        logger.info("租户 ---------- token值为：" + token);
-
-        /************************
-         * 登录Kibana，获取Cookie *
-         ************************/
-        logger.info("登录Kibana，获取Cookie");
-        Map<String,Object>  K_header = new HashMap<>();
-        K_header.put("kbn-version", CustomizedHeader.KIBANA_VERSION);
-
-        String payLoad = "{\"username\":\"elastic\",\"password\":\"CwWkTuF1AY14HA3OTo66\"}";
-        Response response = new RestAPI()
-                .RestPostwithBody_ES1(K_header,ContentType.JSON.withCharset("UTF-8"),"/api/security/v1/login",payLoad);
-
-        cookie = response.getCookie("sid");
-        logger.info("Kibana ---------- cookie值为：" + cookie);
-    }
-
-
-    @BeforeEach
-    public void setHeader(){
-
-        /**
-         * 组装租户素材搜索通用Header
-         */
-        logger.info("设置Header");
-        headers.put("x-tenant-id", CustomizedHeader.TENANT_T13);
-        headers.put("x-token", token);
-        headers.put("x-user-id", CustomizedHeader.USER_ID);
-
-
-        /**
-         * 组装Kibana 请求Header
-         */
-        K_headers.put("kbn-version", CustomizedHeader.KIBANA_VERSION);
-        K_headers.put("Cookie","sid="+ cookie);
-    }
-
+    @Autowired
+    private KeywordService keywordService;
 
 
     @ParameterizedTest(name="静态排序测试用例[{index}]")
     @MethodSource
     @Story("静态排序策略验证测试")
-    @DisplayName("验证素材库 搜索 「关键字」后，返回结果素材名中包含分词结果")
+    @DisplayName("验证素材库 搜索 「关键字」后，返回结果素材名中包含分词结果和同义词")
     @Description("验证素材库 搜索 基础排序策略，交并集先后排序")
     @Severity(SeverityLevel.CRITICAL)
     public void materialSearchBasicOrder(MaterialSearchDto materialSearchDto) throws Exception {
@@ -127,22 +73,33 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         /**
          * 请求Kibana IK 分词器分词接口"/api/console/proxy"
          */
-
-        ESSearchDto esSearchDto = new ESSearchDto(); //组装请求body
+        //组装请求body
+        ESSearchDto esSearchDto = new ESSearchDto();
         esSearchDto.setText(materialSearchDto.getSearchStr());
         esSearchDto.setAnalyzer("ik_smart");
 
-        Map<String,Object> queryParams = new HashMap<>(); //组装请求queryParams
+        //组装请求queryParams
+        Map<String,Object> queryParams = new HashMap<>();
         queryParams.put("path","_analyze");
         queryParams.put("method","POST");
 
         Response K_res = new RestAPI().RestPostwithBody_ES(K_headers,ContentType.JSON.withCharset("UTF-8"),queryParams,"/api/console/proxy",esSearchDto);
 
-
-        List<String> K_List= K_res.path("tokens.token"); //提取IK分词器分词结果，并输出到文件：搜索词ik_smart分词策略结果.yml
+        //提取IK分词器分词结果，并输出到文件：搜索词ik_smart分词策略结果.yml
+        List<String> K_List= K_res.path("tokens.token");
         //FileUtils.writeStrtoFile("- "+materialSearchDto.getSearchStr()+": "+ K_res.path("tokens.token") +"\n","src/test/output/IKSmartResult","搜索词ik_smart分词策略结果.yml");
 
-
+        /**
+         * 通过分词后的关键词查询数据库是否有存在同义词，并合并同义词List和分词后的关键词List
+         */
+        List<String> Synonomlist = new ArrayList<>();
+        for(String s: K_List){
+            Synonomlist.addAll(keywordService.searchbyNameorId(s));
+        }
+        List<String> collect = Stream.of(Synonomlist,K_List)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
 
         /**
          * 请求素材库搜索接口 /material/search/list
@@ -155,7 +112,6 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         /**
          * 如果分词结果K_List 包含在返回的素材名列表nameList中，命中为true，计数+1，和返回的素材TotalCount做Equal断言
          */
-
         List<String> nameList = T_res.path("result.list.CORE_NAME");
         System.out.println("获取的素材的名称："+ nameList);
         System.out.println("关键词分词结果："+ K_List);
@@ -171,8 +127,8 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
                 .filter(name -> {
                     name = name.toLowerCase(); // 将素材名中的所有英文字符转换成小写
                     boolean flag = false;
-                    for (int i = 0; i < K_List.size(); i++) {
-                        if (name.contains(K_List.get(i))) {
+                    for (int i = 0; i < collect.size(); i++) {
+                        if (name.contains(collect.get(i))) {
                             flag = true;
 //                            newList.add(name);
                             break;
@@ -188,8 +144,8 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
                 .filter(name -> {
                     name = name.toLowerCase(); // 将素材名中的所有英文字符转换成小写
                     boolean flag = true;
-                    for (int i = 0; i < K_List.size(); i++) {
-                        if (name.contains(K_List.get(i))) {
+                    for (int i = 0; i < collect.size(); i++) {
+                        if (name.contains(collect.get(i))) {
                             flag = false;
 //                            newList.add(name);
                             break;
@@ -226,8 +182,8 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
             count2= DescList.stream().filter(desc ->{
                 desc=desc.toLowerCase();
                 boolean flag = false;
-                for(int i=0; i<K_List.size();i++){
-                    if(desc.contains(K_List.get(i))){
+                for(int i=0; i<collect.size();i++){
+                    if(desc.contains(collect.get(i))){
                         flag=true;
                         nameList.remove(i);
                         break;
@@ -360,6 +316,28 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         assertTrue(res.path("result.totalCount").toString().equals("7"));
 
     }
+
+
+//
+//    @ParameterizedTest(name="静态排序测试用例[{index}]")
+//    @MethodSource
+//    public void testGetSynonomWords(MaterialSearchDto materialSearchDto){
+//        List<String> list = keywordService.searchbyNameorId(materialSearchDto.getSearchStr());
+//        for(String s: list){
+//            System.out.println(s);
+//        }
+//
+//    }
+//
+//    static List<MaterialSearchDto> testGetSynonomWords() throws IOException {
+//        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+//        List<MaterialSearchDto> materialSearchDtoList= mapper
+//                .readValue(materialSearchTest.class.getResourceAsStream("/searchfiles/materialSearchBasicOrder.yaml"),
+//                        new TypeReference<List<MaterialSearchDto>>() {
+//                        });
+//        return materialSearchDtoList;
+//
+//    }
 
 
 

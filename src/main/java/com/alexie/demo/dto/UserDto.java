@@ -1,10 +1,6 @@
-package com.alexie.demo.Dto;
+package com.alexie.demo.dto;
 
 import lombok.Data;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.InputStream;
-import java.util.Map;
 
 /**
  * ceshi

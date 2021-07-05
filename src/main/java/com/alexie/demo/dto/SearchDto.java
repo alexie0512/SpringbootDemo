@@ -1,4 +1,4 @@
-package com.alexie.demo.Dto;
+package com.alexie.demo.dto;
 
 import lombok.Data;
 

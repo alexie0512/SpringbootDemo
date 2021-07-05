@@ -1,11 +1,8 @@
 package com.alexie.demo.DEMOTests;
 
-import com.alexie.demo.Dto.ESSearchDto;
-import com.alexie.demo.Dto.EsSearchUseCaseDto;
-import com.alexie.demo.Dto.UserDto;
+import com.alexie.demo.dto.ESSearchDto;
+import com.alexie.demo.dto.EsSearchUseCaseDto;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 

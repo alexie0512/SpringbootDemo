@@ -1,27 +1,11 @@
 package com.alexie.demo.DEMOTests;
 
-import com.alexie.demo.DemoApplication;
-import com.alexie.demo.Dto.ESSearchDto;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import com.alexie.demo.utils.FileUtils;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-
-import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * ceshi

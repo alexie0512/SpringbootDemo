@@ -1,33 +1,18 @@
 package com.alexie.demo.MaterialTests;
 
-import com.alexie.demo.DemoApplication;
-import com.alexie.demo.Dto.SearchDto;
-import com.alexie.demo.Services.RestAPI;
+import com.alexie.demo.dto.SearchDto;
+import com.alexie.demo.service.RestAPI;
 import com.alexie.demo.ESSearchTests.ESSearchTest;
 import com.alexie.demo.utils.FileUtils;
-import com.alexie.demo.utils.Interfaces.SimpleExcelFileSource;
 import com.alexie.demo.utils.config.CustomizedHeader;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.response.Response;
-import lombok.extern.slf4j.Slf4j;
 
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
