@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alexie.demo.dao.SearchKeywordMapper">
+  <resultMap id="BaseResultMap" type="com.alexie.demo.entity.SearchKeyword">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="use_status" jdbcType="VARCHAR" property="useStatus" />
+    <result column="direct_call" jdbcType="BIGINT" property="directCall" />
+    <result column="indirect_call" jdbcType="BIGINT" property="indirectCall" />
+    <result column="total_call" jdbcType="BIGINT" property="totalCall" />
+    <result column="synonym_num" jdbcType="INTEGER" property="synonymNum" />
+    <result column="synonym" jdbcType="VARCHAR" property="synonym" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="create_user" jdbcType="BIGINT" property="createUser" />
+    <result column="update_user" jdbcType="BIGINT" property="updateUser" />
+  </resultMap>
+</mapper>
