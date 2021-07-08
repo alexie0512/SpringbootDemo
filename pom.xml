@@ -239,12 +239,6 @@
 		</dependency>
 
 		<!--Mybatis 数据持久化，操作数据库相关的依赖-->
-		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter-->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>2.1.0</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/tk.mybatis/mapper -->
 		<dependency>
 			<groupId>tk.mybatis</groupId>

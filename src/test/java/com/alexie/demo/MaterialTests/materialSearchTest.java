@@ -115,6 +115,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         List<String> nameList = T_res.path("result.list.CORE_NAME");
         System.out.println("获取的素材的名称："+ nameList);
         System.out.println("关键词分词结果："+ K_List);
+        System.out.println("关键词+同义词分词结果："+ collect);
 
         List<Map<String,Object>> T_result= T_res.jsonPath().get("result.list");
         System.out.println("提取响应的List: "+ T_result);
@@ -139,7 +140,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
                 }).count();
 
 
-        //Step2: 提取素材名未命中的素材
+        //Step2: 提取字段：素材名 未命中的素材
         List<String> newList= nameList.stream()
                 .filter(name -> {
                     name = name.toLowerCase(); // 将素材名中的所有英文字符转换成小写
@@ -162,9 +163,11 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
 
         //Step3: 如果有素材名未命中的素材，将分词结果与字段：描述 匹配， 如果匹配，命中为true，计数继续+1
         List<String> DescList = new ArrayList<>();
-        Long count2;
         final String key= "CORE_NAME";
         if(!newList.isEmpty()){
+            Long count2 = 0l;
+            boolean flag=false;
+
             for(int i=0;i<newList.size();i++){
                 String value = newList.get(i);
                 try{
@@ -172,18 +175,68 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
                             .collect(Collectors.toList())
                             .get(0))
                             .get("CORE_DESCRIPTION")
-                            .toString();
+                            .toString()
+                            .toLowerCase();
                     DescList.add(Desc);
+                    for(int j=0; j<collect.size();j++) {
+                        if (Desc.contains(collect.get(j))) {
+                            flag = true;
+                            newList.remove(value);
+                            break;
+                        }
+                    }
+                    if(flag) count2++;
+
                 }catch (Exception e){
-                    logger.info("该素材");
+                    logger.info("该素材没有 CORE_DESCRIPTION 字段值");
+                }
+            }
+            matchedName_count+=count2;
+            System.out.println("命中素材的描述字段"+count2);
+
+        }
+
+        //Step4: 提取字段：素材名，描述  均未命中的素材
+        List<String> newList1= newList.stream()
+                .filter(name -> {
+                    name = name.toLowerCase(); // 将素材名中的所有英文字符转换成小写
+                    boolean flag = true;
+                    for (int i = 0; i < collect.size(); i++) {
+                        if (name.contains(collect.get(i))) {
+                            flag = false;
+//                            newList.add(name);
+                            break;
+                        }
+                    }
+                    return flag;
+
+                }).collect(Collectors.toList());
+
+
+        //Step5: 如果有和字段：素材名，描述均未命中的素材，将分词结果与字段：ORIGIN_STAR_TAG 匹配， 如果匹配，命中为true，计数继续+1
+        List<String> SmartTagList = new ArrayList<>();
+        Long count3;
+        final String key1= "CORE_NAME";
+        if(!newList1.isEmpty()){
+            for(int i=0;i<newList1.size();i++){
+                String value = newList1.get(i);
+                try{
+                    String SmartTag= (T_result.stream().filter(map->map.get(key1).equals(value))
+                            .collect(Collectors.toList())
+                            .get(0))
+                            .get("ORIGIN_SMART_TAG")
+                            .toString();
+                    SmartTagList.add(SmartTag);
+                }catch (Exception e){
+                    logger.info("该素材没有 ORIGIN_STAR_TAG 字段值");
                 }
             }
 
-            count2= DescList.stream().filter(desc ->{
-                desc=desc.toLowerCase();
+            count3= SmartTagList.stream().filter(tag -> {
+                tag=tag.toLowerCase();
                 boolean flag = false;
                 for(int i=0; i<collect.size();i++){
-                    if(desc.contains(collect.get(i))){
+                    if(tag.contains(collect.get(i))){
                         flag=true;
                         nameList.remove(i);
                         break;
@@ -192,8 +245,8 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
                 return flag;
             }).count();
 
-            matchedName_count+=count2;
-            System.out.println("命中素材的描述字段"+count2);
+            matchedName_count+=count3;
+            System.out.println("命中素材的智能标签字段"+count3);
 
         }
 
@@ -313,7 +366,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
-        assertTrue(res.path("result.totalCount").toString().equals("6"));
+        assertTrue(res.path("result.totalCount").toString().equals("7"));
 
     }
 
