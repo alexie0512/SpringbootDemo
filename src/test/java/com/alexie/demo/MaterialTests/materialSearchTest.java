@@ -313,7 +313,7 @@ public class materialSearchTest extends ENV_PREP implements CustomizedHeader {
         Response res =  new RestAPI()
                 .RestPostwithBody(headers, ContentType.JSON.withCharset("UTF-8"), "/material/search/list", payLoad);
 
-        assertTrue(res.path("result.totalCount").toString().equals("7"));
+        assertTrue(res.path("result.totalCount").toString().equals("6"));
 
     }
 
